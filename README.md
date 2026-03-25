@@ -1,97 +1,104 @@
-# Remotion Audiogram Template
+# Podcast Forge
 
-This template is for creating "audiograms". In other words, video clips from podcast episodes, or any other audio. It's a popular way of sharing audio snippets on social media.
+An elegant video creation tool for transforming book discussions and podcast content into beautifully animated audiograms. Podcast Forge combines audio analysis, dynamic visualizations, and professional typography to create engaging video content perfect for social media sharing.
 
-[Example video](https://twitter.com/marcusstenbeck/status/1460641903326732300)
+## Project Overview
 
-<p align="center">
-  <img src="https://github.com/marcusstenbeck/remotion-template-audiogram/raw/main/Promo.png">
-</p>
+Podcast Forge leverages Remotion, a React-based video composition library, to generate high-quality audiogram videos from podcast episodes. The application features:
 
-## Getting started
+- **Real-time Audio Visualization**: Spectrum analyzer or oscilloscope animations that respond to audio content
+- **Dynamic Captions**: Synchronized subtitles with customizable styling and display options
+- **Professional Layout**: Book cover display with podcast information and synchronized audio visualization
+- **Flexible Configuration**: Easy customization of colors, fonts, opacity levels, and timing
 
-```
-npm i
-```
+## Getting Started
 
-```
-npx remotion studio
-```
+### Prerequisites
 
-Start changing things like this:
+- Node.js (v14 or higher)
+- npm or yarn package manager
 
-- Adjust parameters in `src/Root.tsx` or in the Studio sidebar
-- Replacing audio, cover and subtitles in the `public` folder
+### Installation
 
-## How do I render my video?
-
-Run this:
-
-```console
-npx remotion render
+```bash
+npm install
 ```
 
-Or check out the [Remotion docs](/docs/render/). There are lots of ways to render.
+## Operating Podcast Forge
 
-## Where to get a transcript?
+### Step 1: Prepare Your Media Files
 
-You can generate the captions or supply a .srt file or a .json file that follows the [`@remotion/captions`](https://remotion.dev/docs/captions/caption) format.
+Replace the default files in the `public/` directory with your own content:
 
-### Generate captions
+- **`audio.m4a`** - Your podcast episode or audio file (MP4A audio format)
+- **`cover.jpg`** - The book cover image (JPEG format)
+- **`subtitles.srt`** - Subtitle file with synchronized captions (SubRip format)
 
-- With the built-in transcription script using [`@remotion/install-whisper-cpp`](https://www.remotion.dev/docs/install-whisper-cpp/):
+Simply replace these files while keeping the same filenames and extensions.
 
-  ```console
-  bun transcribe.ts
-  # With Node.js: `npx tsx transcribe.ts`
-  ```
+### Step 2: Launch Remotion Studio
 
-  This will:
+Start the Remotion Studio development server:
 
-  - Ask for your audio file path (supports any ffmpeg format)
-  - Ask for the speech start time (to avoid false triggers from background music, intro jingles or noise)
-  - Generate captions.json in the public folder
-
-- Alternatively, use [`@remotion/openai-whisper`](https://www.remotion.dev/docs/openai-whisper/openai-whisper-api-to-captions) to get captions from OpenAI Whisper into the right shape.
-
-**Get it from a provider:**
-
-- Your podcasting host might provide them for you.
-- Descript makes transcription really easy.
-- There are tons of other, paid solutions, like [Otter.ai](https://otter.ai), [Scriptme.io](https://scriptme.io) and [ListenRobo.com](https://listenrobo.com).
-
-If you supply a .srt, make sure to export subtitles that are segmented by word rather than by sentence.
-
-## Optimizing for long audio files
-
-If your audio is long, make sure to pass a `.wav` file as audio.  
-The template will use [`useWindowedAudioData()`](/docs/use-windowed-audio-data) to only fetch the data around the current time.
-
-Otherwise, the waveform of the whole audio needs to be fetched, which may be slow.
-
-## Docs
-
-Get started with Remotion by reading the [fundamentals page](https://www.remotion.dev/docs/the-fundamentals).
-
-## Help
-
-We provide help [on our Discord server](https://discord.gg/6VzzNDwUwV).
-
-## Issues
-
-Found an issue with Remotion? Upgrade Remotion to receive fixes:
-
-```
-npx remotion upgrade
+```bash
+npm start
 ```
 
-Didn't help? [File an issue here](https://github.com/remotion-dev/remotion/issues/new).
+This opens an interactive editing interface in your browser where you can:
+- Preview your video in real-time
+- Adjust settings and see changes instantly
+- Configure the composition parameters
 
-## Contributing
+### Step 3: Configure Your Podcast
 
-The source of this template is in the [Remotion Monorepo](https://github.com/remotion-dev/remotion/tree/main/packages/template-audiogram).  
-Don't send pull requests here, this is only a mirror.
+In the Remotion Studio UI, update these essential settings:
 
-## License
+- **`podcastName`** - The name of your podcast (e.g., "Deep Book Reviews")
+- **`titleText`** - The book title being discussed (e.g., "The Elegant Universe")
+- **`titleColor`** - Hex color for the title text (e.g., "#0a66c2")
+- **`backgroundColor`** - Background color (default: "white")
+- **`audioVisualizationOpacity`** - Transparency of the visualization (0-1, default: 0.3)
+- **`silenceDurationSeconds`** - Length of silence at the end (default: 5 seconds)
+- **`podcastNameOpacity`** - Transparency of the podcast name (0-1, default: 0.5)
 
-Note that for some entities a company license is needed. Read [the terms here](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md).
+You can also adjust:
+- Visualizer type (spectrum or oscilloscope)
+- Visualization colors
+- Caption appearance and behavior
+- Audio offset timing
+
+### Step 4: Render Your Video
+
+Once you're satisfied with the preview, render the final video:
+
+```bash
+npm run build
+```
+
+The rendering process will begin and create your final MP4 video file.
+
+## Output
+
+Your rendered video will be located in:
+
+```
+out/Audiogram.mp4
+```
+
+This high-quality video is ready for sharing on social media, YouTube, podcasting platforms, or any other distribution channel.
+
+## Features
+
+- **Synchronized Captions**: Real-time subtitle display that matches your audio
+- **Dynamic Visualization**: Audio-reactive animations that respond to your podcast's audio
+- **Professional Styling**: Customizable typography, colors, and layout
+- **Flexible Timing**: Configurable silence duration and audio offset
+- **High Quality Output**: 1080p resolution video suitable for all platforms
+
+## Tips for Best Results
+
+1. **Audio Quality**: Ensure your audio file is clear and well-normalized
+2. **Subtitles**: Use precise subtitle timing for better synchronization
+3. **Colors**: Test your color choices in Remotion Studio before rendering
+4. **Book Cover**: Use high-resolution cover images for best visual quality
+5. **Duration**: Keep silence duration reasonable (3-8 seconds) for pacing
