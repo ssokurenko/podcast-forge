@@ -19,11 +19,16 @@ export const Audiogram: React.FC<AudiogramCompositionSchemaType> = ({
   visualizer,
   audioFileUrl,
   coverImageUrl,
+  podcastName,
+  podcastNameOpacity = 0.5,
   titleText,
   titleColor,
   captionsTextColor,
   onlyDisplayCurrentSentence,
   audioOffsetInSeconds,
+  backgroundColor = "black",
+  audioVisualizationOpacity = 0.3,
+  silenceDurationSeconds = 5,
   captions,
 }) => {
   const { durationInFrames, fps, width } = useVideoConfig();
@@ -36,6 +41,8 @@ export const Audiogram: React.FC<AudiogramCompositionSchemaType> = ({
 
   const audioOffsetInFrames = Math.round(audioOffsetInSeconds * fps);
   const baseNumberOfSamples = Number(visualizer.numberOfSamples);
+  const silenceInFrames = Math.round(silenceDurationSeconds * fps);
+  const captionEndFrame = durationInFrames - silenceInFrames;
 
   const textBoxWidth = width - BASE_SIZE * 2;
 
@@ -51,7 +58,7 @@ export const Audiogram: React.FC<AudiogramCompositionSchemaType> = ({
             height: "100%",
             color: "white",
             padding: "48px",
-            backgroundColor: "black",
+            backgroundColor,
             fontFamily: FONT_FAMILY,
           }}
         >
@@ -59,51 +66,79 @@ export const Audiogram: React.FC<AudiogramCompositionSchemaType> = ({
             style={{
               display: "flex",
               flexDirection: "row",
-              alignItems: "center",
+              gap: "48px",
+              alignItems: "flex-start",
             }}
           >
             <Img
               style={{
                 borderRadius: "6px",
-                maxHeight: "250px",
+                maxHeight: "330px",
+                flexShrink: 0,
               }}
               src={coverImageUrl}
             />
             <div
               style={{
-                marginLeft: "48px",
-                lineHeight: "1.25",
-                fontWeight: 800,
-                color: titleColor,
-                fontSize: "48px",
+                display: "flex",
+                flexDirection: "column",
+                flex: 1,
               }}
             >
-              {titleText}
+              <div
+                style={{
+                  lineHeight: "1.25",
+                  fontWeight: 800,
+                  color: titleColor,
+                  fontSize: "80px",
+                  opacity: podcastNameOpacity,
+                }}
+              >
+                {podcastName}
+              </div>
+              <div
+                style={{
+                  lineHeight: "1.25",
+                  fontWeight: 800,
+                  color: titleColor,
+                  fontSize: "80px",
+                }}
+              >
+                {titleText}
+              </div>
+              <div
+                style={{
+                  marginTop: "-48px",
+                  marginBottom: "-24px",
+                  maxHeight: "200px",
+                  maxWidth: "80%",
+                  opacity: audioVisualizationOpacity,
+                }}
+              >
+                {visualizer.type === "oscilloscope" ? (
+                  <Oscilloscope
+                    waveColor={visualizer.color}
+                    padding={visualizer.padding}
+                    audioSrc={audioFileUrl}
+                    key={audioFileUrl}
+                    numberOfSamples={baseNumberOfSamples}
+                    windowInSeconds={visualizer.windowInSeconds}
+                    posterization={visualizer.posterization}
+                    amplitude={visualizer.amplitude}
+                  />
+                ) : visualizer.type === "spectrum" ? (
+                  <Spectrum
+                    barColor={visualizer.color}
+                    audioSrc={audioFileUrl}
+                    key={audioFileUrl}
+                    mirrorWave={visualizer.mirrorWave}
+                    numberOfSamples={baseNumberOfSamples * 4} // since fft is used, we need to increase the number of samples to get a better resolution
+                    freqRangeStartIndex={visualizer.freqRangeStartIndex}
+                    waveLinesToDisplay={visualizer.linesToDisplay}
+                  />
+                ) : null}
+              </div>
             </div>
-          </div>
-          <div>
-            {visualizer.type === "oscilloscope" ? (
-              <Oscilloscope
-                waveColor={visualizer.color}
-                padding={visualizer.padding}
-                audioSrc={audioFileUrl}
-                key={audioFileUrl}
-                numberOfSamples={baseNumberOfSamples}
-                windowInSeconds={visualizer.windowInSeconds}
-                posterization={visualizer.posterization}
-                amplitude={visualizer.amplitude}
-              />
-            ) : visualizer.type === "spectrum" ? (
-              <Spectrum
-                barColor={visualizer.color}
-                audioSrc={audioFileUrl}
-                key={audioFileUrl}
-                mirrorWave={visualizer.mirrorWave}
-                numberOfSamples={baseNumberOfSamples * 4} // since fft is used, we need to increase the number of samples to get a better resolution
-                freqRangeStartIndex={visualizer.freqRangeStartIndex}
-                waveLinesToDisplay={visualizer.linesToDisplay}
-              />
-            ) : null}
           </div>
           <WaitForFonts>
             <div
@@ -112,13 +147,17 @@ export const Audiogram: React.FC<AudiogramCompositionSchemaType> = ({
                 width: textBoxWidth,
                 fontWeight: CAPTIONS_FONT_WEIGHT,
                 fontSize: CAPTIONS_FONT_SIZE,
-                marginTop: BASE_SIZE * 0.5,
+                marginTop: BASE_SIZE,
+                marginBottom: BASE_SIZE * 3,
+                minHeight: `${LINE_HEIGHT * 4}px`,
+                display: "flex",
+                alignItems: "flex-start",
               }}
             >
               <PaginatedCaptions
                 captions={captions}
                 startFrame={audioOffsetInFrames}
-                endFrame={audioOffsetInFrames + durationInFrames}
+                endFrame={captionEndFrame}
                 linesPerPage={LINES_PER_PAGE}
                 subtitlesTextColor={captionsTextColor}
                 onlyDisplayCurrentSentence={onlyDisplayCurrentSentence}

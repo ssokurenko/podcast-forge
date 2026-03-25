@@ -7,30 +7,30 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@remotion/cli": "4.0.440",
-    "@remotion/media-utils": "4.0.440",
-    "@remotion/media-parser": "4.0.440",
-    "@remotion/media": "4.0.440",
     "@remotion/captions": "4.0.440",
-    "@remotion/zod-types": "4.0.440",
+    "@remotion/cli": "^4.0.438",
     "@remotion/google-fonts": "4.0.440",
-    "@remotion/layout-utils": "4.0.440",
     "@remotion/install-whisper-cpp": "4.0.440",
+    "@remotion/layout-utils": "4.0.440",
+    "@remotion/media": "4.0.440",
+    "@remotion/media-parser": "4.0.440",
+    "@remotion/media-utils": "4.0.440",
+    "@remotion/tailwind-v4": "^4.0.438",
+    "@remotion/zod-types": "4.0.440",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "remotion": "4.0.440",
-    "zod": "4.3.6",
-    "@remotion/tailwind-v4": "4.0.440",
-    "tailwindcss": "4.0.0"
+    "tailwindcss": "4.0.0",
+    "zod": "4.3.6"
   },
   "devDependencies": {
     "@remotion/eslint-config-flat": "4.0.440",
+    "@types/node": "20.12.14",
     "@types/react": "19.2.7",
     "@types/web": "0.0.166",
-    "eslint": "9.19.0",
+    "eslint": "^9.39.4",
     "prettier": "3.8.1",
-    "typescript": "5.9.3",
-    "@types/node": "20.12.14"
+    "typescript": "5.9.3"
   },
   "scripts": {
     "dev": "remotion studio",

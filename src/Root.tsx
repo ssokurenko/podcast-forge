@@ -12,32 +12,36 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="Audiogram"
         component={Audiogram}
-        width={1080}
+        width={1920}
         height={1080}
         schema={audiogramSchema}
         defaultProps={{
           // audio settings
           audioOffsetInSeconds: 0,
-          audioFileUrl: staticFile("dialogue.wav"),
+          audioFileUrl: staticFile("audio.m4a"),
+          silenceDurationSeconds: 8,
           // podcast data
-          coverImageUrl: staticFile("podcast-cover.jpeg"),
-          titleText: "Ep 550 - Supper Club × Remotion React",
-          titleColor: "rgba(186, 186, 186, 0.93)",
+          coverImageUrl: staticFile("cover.jpg"),
+          podcastName: "Deep Book Reviews",
+          podcastNameOpacity: 0.3,
+          titleText: "The Elegant Universe",
+          titleColor: "#0a66c2",
+          backgroundColor: "white",
           // captions settings
           captions: null,
-          captionsFileName: staticFile("captions.json"),
+          captionsFileName: staticFile("subtitles.srt"),
           onlyDisplayCurrentSentence: true,
-          captionsTextColor: "rgba(255, 255, 255, 0.93)",
+          captionsTextColor: "black",
           // visualizer settings
           visualizer: {
-            type: "oscilloscope",
-            color: "#F4B941",
-            numberOfSamples: "64" as const,
-            windowInSeconds: 0.1,
-            posterization: 3,
-            amplitude: 4,
-            padding: 50,
+            type: "spectrum" as const,
+            color: "#0a66c2",
+            numberOfSamples: "128" as const,
+            mirrorWave: false,
+            linesToDisplay: 50,
+            freqRangeStartIndex: 0,
           },
+          audioVisualizationOpacity: 0.3,
         }}
         // Determine the length of the video based on the duration of the audio file
         calculateMetadata={async ({ props }) => {
@@ -52,7 +56,7 @@ export const RemotionRoot: React.FC = () => {
 
           return {
             durationInFrames: Math.floor(
-              (slowDurationInSeconds - props.audioOffsetInSeconds) * FPS,
+              (slowDurationInSeconds - props.audioOffsetInSeconds + props.silenceDurationSeconds) * FPS,
             ),
             props: {
               ...props,

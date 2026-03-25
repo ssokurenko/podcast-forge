@@ -30,8 +30,11 @@ const visualizerSchema = z.discriminatedUnion("type", [
 export const audiogramSchema = z.object({
   // visualizer settings
   visualizer: visualizerSchema,
+  audioVisualizationOpacity: z.number().min(0).max(1).default(0.3),
   // podcast data
   coverImageUrl: z.string(),
+  podcastName: z.string(),
+  podcastNameOpacity: z.number().min(0).max(1).default(0.5),
   titleText: z.string(),
   titleColor: zColor(),
   // captions settings
@@ -45,6 +48,9 @@ export const audiogramSchema = z.object({
   // audio settings
   audioFileUrl: z.string(),
   audioOffsetInSeconds: z.number().min(0),
+  silenceDurationSeconds: z.number().min(0).default(5),
+  // background settings
+  backgroundColor: zColor().default("black"),
 });
 
 export type AudiogramCompositionSchemaType = z.infer<typeof audiogramSchema> & {
