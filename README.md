@@ -11,6 +11,10 @@ Podcast Forge leverages Remotion, a React-based video composition library, to ge
 - **Professional Layout**: Book cover display with podcast information and synchronized audio visualization
 - **Flexible Configuration**: Easy customization of colors, fonts, opacity levels, and timing
 
+### Screenshot
+
+![Podcast Forge Audiogram Example](./github/images/screenshot.png)
+
 ## Getting Started
 
 ### Prerequisites
