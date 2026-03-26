@@ -33,6 +33,7 @@
     "typescript": "5.9.3"
   },
   "scripts": {
+    "start": "npm run dev",
     "dev": "remotion studio",
     "build": "remotion bundle",
     "upgrade": "remotion upgrade",
