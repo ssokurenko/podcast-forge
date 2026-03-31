@@ -1,6 +1,10 @@
 {
   "name": "podcast-forge",
-  "image": "oven/bun:latest",
+  "image": "ghcr.io/gatezh/devcontainer-claude-bun:latest",
+  "runArgs": [
+    "--cap-add=NET_ADMIN",
+    "--cap-add=NET_RAW"
+  ],
   "features": {
     "ghcr.io/devcontainers/features/git:1": {}
   },
@@ -23,5 +27,13 @@
     }
   },
   "postCreateCommand": "bun install",
-  "remoteUser": "bun"
+  "remoteUser": "bun",
+  "mounts": [
+    "source=claude-code-bashhistory-${devcontainerId},target=/commandhistory,type=volume",
+    "source=claude-code-config-${devcontainerId},target=/home/bun/.claude,type=volume"
+  ],
+  "containerEnv": {
+    "CLAUDE_CONFIG_DIR": "/home/bun/.claude"
+  },
+  "postStartCommand": "sudo /usr/local/bin/init-firewall.sh"
 }
