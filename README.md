@@ -17,16 +17,51 @@ Podcast Forge leverages Remotion, a React-based video composition library, to ge
 
 ## Getting Started
 
-### Prerequisites
+### Prerequisites (Local Setup)
 
 - Node.js (v14 or higher)
-- npm or yarn package manager
+- npm, yarn, or bun package manager
 
-### Installation
+### Installation (Local)
 
 ```bash
 npm install
 ```
+
+Or with bun:
+
+```bash
+bun install
+```
+
+### Using Dev Container
+
+For a containerized development environment with bun pre-installed:
+
+1. **Install Requirements**
+   - Docker Desktop (or any Docker-compatible container runtime)
+   - Visual Studio Code with the "Dev Containers" extension
+
+2. **Open in Dev Container**
+   - Open the project in VS Code
+   - Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS)
+   - Select "Dev Containers: Reopen in Container"
+   - Wait for the container to build and dependencies to install
+
+3. **Run Remotion Studio in Container**
+   - Once in the container, open the VS Code terminal
+   - Run:
+   ```bash
+   bun start
+   ```
+   - Forward the port (VS Code will prompt you) or access at `http://localhost:3000`
+
+4. **Render Video in Container**
+   - In the terminal, run:
+   ```bash
+   bun run build
+   ```
+   - Your rendered video will be saved to `out/Audiogram.mp4`
 
 ## Operating Podcast Forge
 
